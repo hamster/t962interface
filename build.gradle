@@ -1,0 +1,77 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.beryx.jlink' version '2.21.1'
+}
+
+repositories {
+    mavenCentral()
+	maven { url  "https://jetbrains.bintray.com/pty4j" }
+}
+
+sourceCompatibility = "16"
+targetCompatibility = "16"
+
+configurations {
+	all.collect { configuration ->
+		configuration.exclude group: 'org.mockito', module: 'mockito-all'
+	}
+}
+
+dependencies {
+	// https://mvnrepository.com/artifact/com.google.guava/guava
+	implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+	// https://mvnrepository.com/artifact/com.google.inject/guice
+	implementation group: 'com.google.inject', name: 'guice', version: '5.1.0'
+	implementation('org.controlsfx:controlsfx:11.1.2')
+}
+
+javafx {
+	version = '11.0.2'
+	modules = ['javafx.controls', 'javafx.fxml']
+}
+
+application {
+	mainModule.set("net.snurkle.t962interface")
+	mainClass.set("net.snurkle.t962interface.Main")
+	applicationName = "T962 Interface"
+}
+
+jlink {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'T962 Interface'
+    }
+	addExtraDependencies('javafx')
+    forceMerge('controlsfx')
+    jpackage {
+        if (org.gradle.internal.os.OperatingSystem.current().windows) {
+//			imageOptions += [
+//			    '--icon', 'src/main/resources/net/snurkle/t962interface/style/icon.ico'
+//			]
+            installerOptions += [
+				'--win-per-user-install',
+				'--vendor', 'Snurkle Engineering',
+				'--win-dir-chooser',
+				'--app-version', '1.0.0',
+				'--win-menu',
+				'--win-menu-group', 'Snurkle',
+				'--win-shortcut']
+        }
+    }
+}
+
+tasks.jpackageImage.doLast {
+	//file("$buildDir/jpackage/$applicationName/data").mkdirs()
+	copy {
+		from "$project.rootDir/data"
+		into "$buildDir/jpackage/$applicationName/data"
+	}
+}
+
+tasks.jpackage.doLast {
+	copy {
+		from "$buildDir/jpackage"
+		into "$project.rootDir/Release"
+	}
+}
