@@ -9,8 +9,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -24,6 +22,11 @@
                   <MenuItem fx:id="menuitemClose" mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Setup">
+              <items>
+                  <Menu fx:id="menuSerial" mnemonicParsing="false" text="Serial Port" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem fx:id="menuitemAbout" mnemonicParsing="false" text="About" />
@@ -36,7 +39,7 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Button>
-      <Button id="buttonProgram" fx:id="buttonSTOP" layoutX="225.0" layoutY="38.0" mnemonicParsing="false" prefHeight="77.0" prefWidth="170.0" text="STOP">
+      <Button id="buttonProgram" fx:id="buttonStop" layoutX="225.0" layoutY="38.0" mnemonicParsing="false" prefHeight="77.0" prefWidth="170.0" text="STOP">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
@@ -51,16 +54,16 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <TabPane layoutX="25.0" layoutY="132.0" prefHeight="648.0" prefWidth="970.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="25.0" layoutY="132.0" prefHeight="629.0" prefWidth="970.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tabRaw" text="Raw Data">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="118.0" prefWidth="121.0">
                      <children>
-                        <TextArea fx:id="textInput" layoutX="35.0" layoutY="46.0" prefHeight="480.0" prefWidth="900.0" />
+                        <TextArea fx:id="textReceived" layoutX="35.0" layoutY="46.0" prefHeight="480.0" prefWidth="900.0" />
                         <Label layoutX="35.0" layoutY="23.0" text="Oven Data" />
                         <Label layoutX="35.0" layoutY="537.0" text="Send to Oven" />
-                        <TextField fx:id="textOutput" layoutX="35.0" layoutY="565.0" prefHeight="25.0" prefWidth="622.0" />
+                        <TextField fx:id="textTransmit" layoutX="35.0" layoutY="565.0" prefHeight="25.0" prefWidth="622.0" />
                         <Button fx:id="buttonSend" layoutX="670.0" layoutY="565.0" mnemonicParsing="false" text="Send" />
                      </children>
                   </AnchorPane>
@@ -100,5 +103,6 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Label fx:id="statusbar" layoutX="31.0" layoutY="778.0" prefHeight="17.0" prefWidth="958.0" />
    </children>
 </Pane>

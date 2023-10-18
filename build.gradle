@@ -1,7 +1,7 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
-    id 'org.beryx.jlink' version '2.21.1'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.26.0'
 }
 
 repositories {
@@ -23,18 +23,41 @@ dependencies {
 	implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
 	// https://mvnrepository.com/artifact/com.google.inject/guice
 	implementation group: 'com.google.inject', name: 'guice', version: '5.1.0'
-	implementation('org.controlsfx:controlsfx:11.1.2')
+	// https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+	implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.1.2' exclude group: 'org.openjfx'
+	// https://mvnrepository.com/artifact/org.jfxtras/jfxtras-controls
+	implementation group: 'org.jfxtras', name: 'jfxtras-controls', version: '15-r1' exclude group: 'org.openjfx'
+
+	// https://mvnrepository.com/artifact/com.fazecast/jSerialComm
+	implementation group: 'com.fazecast', name: 'jSerialComm', version: '2.10.3'
+
+	// https://mvnrepository.com/artifact/de.gsi/chartfx
+	implementation group: 'de.gsi', name: 'chartfx', version: '11.2.7', ext: 'pom'
+
 }
 
 javafx {
-	version = '11.0.2'
-	modules = ['javafx.controls', 'javafx.fxml']
+	version = '17'
+	modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.web']
 }
 
 application {
-	mainModule.set("net.snurkle.t962interface")
+	mainModule.set("t962interface")
 	mainClass.set("net.snurkle.t962interface.Main")
 	applicationName = "T962 Interface"
+}
+
+jar {
+	manifest {
+		attributes (
+				'Implementation-Title'  : 'T962 Interface',
+				'Implementation-Version' : archiveVersion,
+				'Created-By'            : "Gradle ${gradle.gradleVersion}",
+				'Build-Timestamp'       : new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+				'Build-JDK'             : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']}",
+				'Build-OS'              : "${System.properties['os.name']} (${System.properties['os.arch']} ${System.properties['os.version']}"
+		)
+	}
 }
 
 jlink {

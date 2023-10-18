@@ -1,8 +1,11 @@
-module net.snurkle.t962interface {
+module t962interface {
     requires javafx.controls;
 	requires javafx.fxml;
+	requires javafx.graphics;
     requires com.google.common;
 	requires com.google.guice;
+	requires com.fazecast.jSerialComm;
+	requires java.logging;
 
 	opens net.snurkle.t962interface.controllers to javafx.fxml;
 
